@@ -107,6 +107,7 @@ def calculateMatrix(angle):
 
     model = translate * rotate * scale
 
+    #cambios de camara aqui
     view = glm.lookAt(
         glm.vec3(0, 0, 5),
         glm.vec3(0, 0, 0),
