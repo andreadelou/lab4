@@ -8,7 +8,7 @@ import glm
 pygame.init()
 
 screen = pygame.display.set_mode(
-    (1600, 1200),
+    (800, 800),
     pygame.OPENGL | pygame.DOUBLEBUF
 )
 # dT = pygame.time.Clock()
@@ -23,13 +23,13 @@ layout (location = 1) in vec3 vertexColor;
 uniform mat4 amatrix;
 
 out vec3 ourColor;
-
+out vec3 Coordt;
 
 void main()
 {
     gl_Position = amatrix * vec4(position, 1.0f);
     ourColor = vertexColor;
-
+    Coordt = gl_Position.xy;
 }
 """
 
@@ -39,8 +39,6 @@ fragment_shader = """
 layout (location = 0) out vec4 fragColor;
 
 uniform vec3 color;
-
-
 in vec3 ourColor;
 
 void main()
@@ -49,6 +47,18 @@ void main()
     fragColor = vec4(color, 1.0f);
 }
 """
+
+fragment_shader2 = """
+#version 460
+
+vec2 iResolution = vec2(2, 2);
+layout (location = 0) out vec4 fragColor;
+in vec2 fragCoord;
+uniform float iTime;
+
+
+"""
+
 compiled_vertex_shader = compileShader(vertex_shader, GL_VERTEX_SHADER)
 compiled_fragment_shader = compileShader(fragment_shader, GL_FRAGMENT_SHADER)
 shader = compileProgram(
@@ -116,7 +126,7 @@ def calculateMatrix(angle):
 
     projection = glm.perspective(
         glm.radians(45),
-        1600/1200,
+        800/800,
         0.1,
         1000.0
     )
@@ -130,7 +140,7 @@ def calculateMatrix(angle):
         glm.value_ptr(amatrix)
     )
 
-glViewport(0, 0, 1600, 1200)
+glViewport(0, 0, 800, 800)
 
 
 
