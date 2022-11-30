@@ -160,7 +160,6 @@ shader = compileProgram(compiled_vertex_shader, compiled_fragment_shader)
 shader2 = compileProgram(compiled_vertex_shader, compiled_fragment_shader2)
 shader3 = compileProgram(compiled_vertex_shader, compiled_fragment_shader3)
 shader4 = compileProgram(compiled_vertex_shader, compiled_fragment_shader4)
-shader5 = compileProgram(compiled_vertex_shader, compiled_fragment_shader5)
 
 glUseProgram(shader)
 
