@@ -4,6 +4,7 @@ import pygame
 from OpenGL.GL import *
 from OpenGL.GL.shaders import *
 import glm
+from obj import *
 
 pygame.init()
 
@@ -19,17 +20,14 @@ vertex_shader = """
 #version 460
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 vertexColor;
-
 uniform mat4 amatrix;
-
 out vec3 ourColor;
-out vec3 Coordt;
-
+out vec2 fragCoord;
 void main()
 {
     gl_Position = amatrix * vec4(position, 1.0f);
     ourColor = vertexColor;
-    Coordt = gl_Position.xy;
+    fragCoord = gl_Position.xy;
 }
 """
 
@@ -50,14 +48,11 @@ void main()
 
 compiled_vertex_shader = compileShader(vertex_shader, GL_VERTEX_SHADER)
 compiled_fragment_shader = compileShader(fragment_shader, GL_FRAGMENT_SHADER)
-compiled_fragment_shader2 = compileShader(fragment_shader2, GL_FRAGMENT_SHADER)
-compiled_fragment_shader3 = compileShader(fragment_shader3, GL_FRAGMENT_SHADER)
-compiled_fragment_shader4 = compileShader(fragment_shader4, GL_FRAGMENT_SHADER)
+
 
 shader = compileProgram(compiled_vertex_shader, compiled_fragment_shader)
-shader2 = compileProgram(compiled_vertex_shader, compiled_fragment_shader2)
-shader3 = compileProgram(compiled_vertex_shader, compiled_fragment_shader3)
-shader4 = compileProgram(compiled_vertex_shader, compiled_fragment_shader4)
+# shader2 = compileProgram(compiled_vertex_shader, compiled_fragment_shader2)
+
 
 glUseProgram(shader)
 
@@ -78,7 +73,7 @@ glBindVertexArray(vertex_array_object)
 
 vertex_buffer_object = glGenBuffers(1)
 glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object)
-glBufferData(GL_ARRAY_BUFFER, vertex_data.nbytes, vertex_data, GL_STATIC_DRAW)
+
 
 element_buffer_object = glGenBuffers(1)
 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer_object)
@@ -139,12 +134,6 @@ while running:
                 current_shader = shader
             if event.key == pygame.K_2:
                 current_shader = shader2
-            if event.key == pygame.K_3:
-                current_shader = shader3
-            if event.key == pygame.K_4:
-                current_shader = shader4
-            if event.key == pygame.K_5:
-                current_shader = shader5
             if event.key == pygame.K_w:
                 new_vec = glm.vec3(1, 0, 0)
                 angle += 10
